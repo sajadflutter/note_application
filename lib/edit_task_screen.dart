@@ -5,24 +5,28 @@ import 'package:note/task_type.dart';
 import 'package:note/utility.dart';
 import 'package:time_pickerr/time_pickerr.dart';
 
-class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key});
+class EditTaskScreen extends StatefulWidget {
+  EditTaskScreen({super.key, required this.task});
+  Task task;
 
   @override
-  State<AddTaskScreen> createState() => _AddTaskScreenState();
+  State<EditTaskScreen> createState() => _EditTaskScreenState();
 }
 
-class _AddTaskScreenState extends State<AddTaskScreen> {
-  final TextEditingController Controller_Tasktitle = TextEditingController();
-  final TextEditingController Controller_Subtitle = TextEditingController();
+class _EditTaskScreenState extends State<EditTaskScreen> {
+  TextEditingController? Controller_Tasktitle;
+  TextEditingController? Controller_Subtitle;
   var Box = Hive.box<Task>('taskBox');
   FocusNode myfocusnode = FocusNode();
   FocusNode myfocusnode1 = FocusNode();
   DateTime? _time;
   int SelectedTaskTypeItem = 0;
+
   @override
   void initState() {
     super.initState();
+    Controller_Subtitle = TextEditingController(text: widget.task.subtitle);
+    Controller_Tasktitle = TextEditingController(text: widget.task.title);
     myfocusnode.addListener(() {
       setState(() {});
     });
@@ -187,13 +191,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     ),
                   ),
                   onPressed: () {
-                    String TaskTitle = Controller_Tasktitle.text;
-                    String TaskSubTitle = Controller_Subtitle.text;
-                    AddTask(TaskTitle, TaskSubTitle);
+                    String TaskTitle = Controller_Tasktitle!.text;
+                    String TaskSubTitle = Controller_Subtitle!.text;
+                    EditTask(TaskTitle, TaskSubTitle);
                     Navigator.pop(context);
                   },
                   child: Text(
-                    'اضافه کردن تسک',
+                    'ویرایش کردن تسک',
                     style: TextStyle(
                       fontSize: 18,
                     ),
@@ -207,13 +211,13 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     );
   }
 
-  void AddTask(String TaskTitle, String TaskSubTitle) {
-    var task = Task(
-        title: TaskTitle,
-        subtitle: TaskSubTitle,
-        time: _time!,
-        taskType: getTaskTypeList()[SelectedTaskTypeItem]);
-    Box.add(task);
+  void EditTask(String TaskTitle, String TaskSubTitle) {
+    widget.task.title = TaskTitle;
+    widget.task.subtitle = TaskSubTitle;
+    widget.task.time = _time!;
+    widget.task.taskType = getTaskTypeList()[SelectedTaskTypeItem];
+
+    widget.task.save();
   }
 }
 

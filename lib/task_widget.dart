@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note/edit_task_screen.dart';
 import 'package:note/task.dart';
 
 class TaskWidget extends StatefulWidget {
@@ -109,9 +110,11 @@ class _TaskWidgetState extends State<TaskWidget> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  '10:30',
+                  '${widget.task.time.hour}:${getMinUnderTen(widget.task.time)}',
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 13,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
                 SizedBox(
@@ -125,37 +128,60 @@ class _TaskWidgetState extends State<TaskWidget> {
         SizedBox(
           width: 15,
         ),
-        Container(
-          width: 85,
-          height: 25,
-          decoration: BoxDecoration(
-            color: Color(0xffE2F6F1),
-            borderRadius: BorderRadius.circular(18),
-          ),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 6,
-              horizontal: 12,
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return EditTaskScreen(
+                    task: widget.task,
+                  );
+                },
+              ),
+            );
+          },
+          child: Container(
+            width: 85,
+            height: 25,
+            decoration: BoxDecoration(
+              color: Color(0xffE2F6F1),
+              borderRadius: BorderRadius.circular(18),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  'ویرایش',
-                  style: TextStyle(
-                    color: Color(0xff18DAA3),
-                    fontSize: 10,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 6,
+                horizontal: 12,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    'ویرایش',
+                    style: TextStyle(
+                      color: Color(0xff18DAA3),
+                      fontSize: 11,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Image.asset('images/icon_edit.png'),
-              ],
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Image.asset('images/icon_edit.png'),
+                ],
+              ),
             ),
           ),
         ),
       ],
     );
+  }
+
+  String getMinUnderTen(DateTime time) {
+    if (time.minute < 10) {
+      return '0${time.minute}';
+    } else {
+      return '${time.minute.toString()}';
+    }
   }
 }
