@@ -64,9 +64,15 @@ class _TaskWidgetState extends State<TaskWidget> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Checkbox(
-                    value: isBoxChecked,
-                    onChanged: (value) {},
+                  Transform.scale(
+                    scale: 1.3,
+                    child: Checkbox(
+                      shape: CircleBorder(),
+                      checkColor: Colors.white,
+                      activeColor: Color(0xff18DAA3),
+                      value: isBoxChecked,
+                      onChanged: (value) {},
+                    ),
                   ),
                   Text(
                     widget.task.title,
@@ -86,7 +92,7 @@ class _TaskWidgetState extends State<TaskWidget> {
         SizedBox(
           width: 15,
         ),
-        Image.asset('images/workout.png'),
+        Image.asset(widget.task.taskType.image),
       ],
     );
   }
@@ -150,11 +156,10 @@ class _TaskWidgetState extends State<TaskWidget> {
             ),
             child: Padding(
               padding: EdgeInsets.symmetric(
-                vertical: 6,
                 horizontal: 12,
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     'ویرایش',

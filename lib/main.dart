@@ -5,7 +5,6 @@ import 'package:note/enum_type.dart';
 import 'package:note/home_screen.dart';
 import 'package:note/task.dart';
 import 'package:note/task_type.dart';
-import 'package:note/test.dart';
 
 void main() async {
   await Hive.initFlutter();

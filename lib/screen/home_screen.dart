@@ -50,9 +50,14 @@ class _HomeScreenState extends State<HomeScreen> {
         child: FloatingActionButton(
           backgroundColor: Color(0xff18DAA3),
           onPressed: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return AddTaskScreen();
-            }));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) {
+                  return AddTaskScreen();
+                },
+              ),
+            );
           },
           child: Image.asset(
             'images/icon_add.png',
